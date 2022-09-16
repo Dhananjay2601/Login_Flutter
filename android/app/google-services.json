@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "436096264706",
+    "project_id": "reseller-e1a82",
+    "storage_bucket": "reseller-e1a82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436096264706:android:3899574b449e7b19cf551b",
+        "android_client_info": {
+          "package_name": "com.example.reseller_apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436096264706-b4hcjcdth5gpfdk0o9kejm7rqpqdp7nj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB14CY6sHwjOqPVjHWqiRIbfHP_L-u7fJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436096264706-b4hcjcdth5gpfdk0o9kejm7rqpqdp7nj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
