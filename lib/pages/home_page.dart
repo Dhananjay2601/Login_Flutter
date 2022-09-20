@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, sort_child_properties_last
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:reseller_apk/pages/hotel_agents.dart';
 import 'package:reseller_apk/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'hotel_agents.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,19 +38,40 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               // logOut user and clear user data from local storage
               showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title:
-                      Text('Login Failed ! Please Enter Valid User Details.'),
-                ),
-                barrierDismissible: true,
-              );
+                  context: context,
+                  builder: (ctxt) {
+                    return AlertDialog(
+                      title: Text("Logout"),
+                      content: Column(
+                        children: [
+                          Text("Do you Really want to logout?"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ElevatedButton(
+                                child: Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ElevatedButton(
+                                child: Text("Logout"),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext ctx) =>
+                                              LoginPage()));
+                                },
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  });
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.remove('email');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext ctx) => LoginPage()));
             },
           ),
         ),
