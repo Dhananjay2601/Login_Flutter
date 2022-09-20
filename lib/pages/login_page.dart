@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, avoid_print
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +19,11 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
 
+  static Future<bool> storeToken(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString('token', value);
+  }
+
 //POST req, Login function
   void login(String email, password) async {
     try {
@@ -33,11 +38,18 @@ class _LoginPageState extends State<LoginPage> {
         // _isLoading = false;
         //saving user data after successfull login
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('email', 'useremail@gmail.com');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+        prefs.setString('phoneOrEmail', 'email');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext ctx) => HomePage(),
+          ),
+        );
         var data = jsonDecode(response.body.toString());
-        print(data);
+        storeToken(data['token']);
+        print(data['token']);
+        // print(data['token'] + '');
+        // print(data);
         print('Login successfully');
       } else {
         print('Login Failed');
@@ -108,8 +120,6 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
-//  Add email validator here
-
                       controller: emailcontroller,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) => validateEmail(value),

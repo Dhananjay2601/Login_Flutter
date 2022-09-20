@@ -12,18 +12,15 @@ class HotelAgents extends StatefulWidget {
 }
 
 class _HotelAgentsState extends State<HotelAgents> {
+  //Calling list of agents from API
   Future<List<Agent>> _getAgents() async {
     var data = await http.get(
       Uri.parse('http://192.168.43.238:3000/api/agents'),
     );
-
     var jsonData = json.decode(data.body);
-
     List<Agent> agents = [];
-
     for (var u in jsonData) {
-      Agent agent =
-          Agent(u['name'], u['address'], u['phone'], u['email'], u['type']);
+      Agent agent = Agent(u['name'], u['address'], u['phone'], u['email']);
       agents.add(agent);
     }
     print(agents.length);
@@ -64,6 +61,7 @@ class _HotelAgentsState extends State<HotelAgents> {
                   );
                 });
           }),
+      //Add hotel button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton.extended(
@@ -87,12 +85,12 @@ class _HotelAgentsState extends State<HotelAgents> {
   }
 }
 
+//function to get agent details
 class Agent {
   final String name;
   final String address;
   final String phone;
   final String email;
-  final String type;
 
-  Agent(this.name, this.address, this.phone, this.email, this.type);
+  Agent(this.name, this.address, this.phone, this.email);
 }
