@@ -59,10 +59,7 @@ class _AddAgentState extends State<AddAgent> {
           foregroundColor: Colors.black,
           onPressed: () {
             // Respond to button press
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddAgent()),
-            );
+            Navigator.pushNamed(context, '/add_agents');
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(

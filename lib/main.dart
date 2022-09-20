@@ -5,9 +5,14 @@ import 'package:reseller_apk/pages/add_agents.dart';
 import 'package:reseller_apk/pages/home_page.dart';
 import 'package:reseller_apk/pages/hotel_agents.dart';
 import 'package:reseller_apk/pages/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var email = prefs.getString('email');
+  print(email);
+  runApp(MaterialApp(home: email == null ? LoginPage() : HomePage()));
 }
 
 class MyApp extends StatelessWidget {

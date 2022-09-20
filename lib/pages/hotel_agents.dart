@@ -59,9 +59,7 @@ class _HotelAgentsState extends State<HotelAgents> {
                       tileColor: Colors.grey,
                       title: Text(snapshot.data[index].name),
                       subtitle: Text(snapshot.data[index].email),
-                      onTap: () {
-                        Navigator.pushNamed(context, '/add_agents');
-                      },
+                      onTap: () {},
                     ),
                   );
                 });

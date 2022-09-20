@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:reseller_apk/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'hotel_agents.dart';
 
@@ -34,8 +35,22 @@ class _HomePageState extends State<HomePage> {
               'Log Out',
               style: TextStyle(color: Colors.black),
             ),
-            onPressed: () {
-              // logOut();
+            onPressed: () async {
+              // logOut user and clear user data from local storage
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title:
+                      Text('Login Failed ! Please Enter Valid User Details.'),
+                ),
+                barrierDismissible: true,
+              );
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove('email');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext ctx) => LoginPage()));
             },
           ),
         ),
