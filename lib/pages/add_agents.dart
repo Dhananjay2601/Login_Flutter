@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unnecessary_new, duplicate_ignore
 import 'package:flutter/material.dart';
 import 'package:reseller_apk/pages/hotel_agents.dart';
 
@@ -52,6 +52,69 @@ class _AddAgentState extends State<AddAgent> {
           )
         ],
       ),
+
+      body: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 20,
+          ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: TextField(
+              decoration: InputDecoration(
+                hintText: "Name",
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ListTile(
+            leading: const Icon(Icons.email),
+            title: TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                hintText: "Email",
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ListTile(
+            leading: const Icon(Icons.phone),
+            title: TextField(
+                decoration: InputDecoration(
+                  hintText: "Phone",
+                ),
+                keyboardType: TextInputType.phone),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ListTile(
+            leading: const Icon(Icons.work),
+            title: TextField(
+              decoration: InputDecoration(
+                hintText: "address",
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          // ListTile(
+          //   leading: const Icon(Icons.location_city),
+          //   title: TextField(
+          //     decoration: InputDecoration(
+          //       hintText: "Latitude and Longitude",
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
+
+      // ignore: dead_code
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton.extended(
