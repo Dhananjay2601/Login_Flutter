@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'login_page.dart';
-import 'home_page.dart';
 
+import 'login_page.dart';
 //To Check if User logged in or not
 
 class MainPage extends StatefulWidget {
@@ -17,17 +16,19 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+    LoginPage();
     return Scaffold(
-      // //connect db here
-      body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return HomePage();
-            } else {
-              return LoginPage();
-            }
-          }),
-    );
+
+        // //connect db here
+        // body: StreamBuilder<User?>(
+        //     stream: FirebaseAuth.instance.authStateChanges(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.hasData) {
+        //         return HomePage();
+        //       } else {
+        //         return LoginPage();
+        //       }
+        //     }),
+        );
   }
 }

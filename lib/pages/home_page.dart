@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'hotel_agents.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late SharedPreferences sharedPreferences;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
-              FirebaseAuth.instance.signOut();
+              // logOut();
             },
           ),
         ),
@@ -55,7 +57,6 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => const HotelAgents()),
                     );
                   },
-
                   child: Container(
                     padding: EdgeInsets.all(13),
                     decoration: BoxDecoration(

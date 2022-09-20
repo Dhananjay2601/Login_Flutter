@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:reseller_apk/pages/add_agents.dart';
+import 'package:http/http.dart' as http;
 
 class HotelAgents extends StatefulWidget {
   const HotelAgents({super.key});
@@ -11,6 +12,24 @@ class HotelAgents extends StatefulWidget {
 }
 
 class _HotelAgentsState extends State<HotelAgents> {
+  Future<List<Agent>> _getAgents() async {
+    var data = await http.get(
+      Uri.parse('http://192.168.43.238:3000/api/agents'),
+    );
+
+    var jsonData = json.decode(data.body);
+
+    List<Agent> agents = [];
+
+    for (var u in jsonData) {
+      Agent agent =
+          Agent(u['name'], u['address'], u['phone'], u['email'], u['type']);
+      agents.add(agent);
+    }
+    print(agents.length);
+    return agents;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,34 +40,32 @@ class _HotelAgentsState extends State<HotelAgents> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Hotel Shivleela ',
-                style: TextStyle(color: Colors.black),
-              ),
-              SizedBox(height: 50),
-              Text(
-                'Hotel Taj',
-                style: TextStyle(color: Colors.black),
-              ),
-              SizedBox(height: 50),
-              Text(
-                'Hotel Marriott',
-                style: TextStyle(color: Colors.black),
-              ),
-              SizedBox(height: 50),
-              Text(
-                'Hotel Sun Inn',
-                style: TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: FutureBuilder(
+          future: _getAgents(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Container(
+                child: Center(
+                  child: Text('Loading....'),
+                ),
+              );
+            }
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ListTile(
+                      tileColor: Colors.grey,
+                      title: Text(snapshot.data[index].name),
+                      subtitle: Text(snapshot.data[index].email),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/add_agents');
+                      },
+                    ),
+                  );
+                });
+          }),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton.extended(
@@ -70,4 +87,14 @@ class _HotelAgentsState extends State<HotelAgents> {
       ),
     );
   }
+}
+
+class Agent {
+  final String name;
+  final String address;
+  final String phone;
+  final String email;
+  final String type;
+
+  Agent(this.name, this.address, this.phone, this.email, this.type);
 }
