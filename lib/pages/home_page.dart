@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, sort_child_properties_last
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:reseller_apk/pages/hotel%20agent/hotel_agents.dart';
 import 'package:reseller_apk/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'hotel_agents.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,19 +38,55 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               // logOut user and clear user data from local storage
               showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title:
-                      Text('Login Failed ! Please Enter Valid User Details.'),
-                ),
-                barrierDismissible: true,
-              );
+                  context: context,
+                  builder: (ctxt) {
+                    return AlertDialog(
+                      title: Center(child: Text("Logout")),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("Do you Really want to logout?"),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange[300],
+                                ),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange[300],
+                                ),
+                                child: Text(
+                                  "Logout",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext ctx) =>
+                                              LoginPage()));
+                                },
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  });
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.remove('email');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext ctx) => LoginPage()));
             },
           ),
         ),
@@ -68,8 +104,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HotelAgents()),
+                      MaterialPageRoute(builder: (context) => HotelAgents()),
                     );
                   },
                   child: Container(
@@ -100,8 +135,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HotelAgents()),
+                      MaterialPageRoute(builder: (context) => HotelAgents()),
                     );
                   },
 
@@ -133,8 +167,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HotelAgents()),
+                      MaterialPageRoute(builder: (context) => HotelAgents()),
                     );
                   },
 

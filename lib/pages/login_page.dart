@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, avoid_print, unnecessary_new
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,10 +14,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // bool _isLoading = false;
+  bool _isLoading = false;
   bool _isObscure = true;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
+
+//function to store user token locally
+  static Future<bool> storeToken(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString('token', value);
+  }
+
+  //function to store user ID locally
+  static Future<bool> storeId(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString('userId', value);
+  }
 
 //POST req, Login function
   void login(String email, password) async {
@@ -30,21 +42,33 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
       if (response.statusCode == 200) {
+        setState(() {
+          _isLoading = false;
+        });
         // _isLoading = false;
         //saving user data after successfull login
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('email', 'useremail@gmail.com');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+        prefs.setString('email', 'phoneOrEmail');
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext ctx) => HomePage(),
+          ),
+        );
+        //take user token from API and store it locally for auth
         var data = jsonDecode(response.body.toString());
-        print(data);
-        print('Login successfully');
+        storeToken(data['token']);
+        storeId(data['userId']);
+        print(data['userId']);
+        print(data['token']);
+        print('Login Successfully');
       } else {
         print('Login Failed');
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: Text('Login Failed ! Please Enter Valid User Details.'),
+            title: Text('Login Failed! Please Enter Valid User Details'),
           ),
           barrierDismissible: true,
         );
@@ -54,20 +78,35 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+//function to validate email
   static validateEmail(String? value) {
     String pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?)*$";
     RegExp regex = RegExp(pattern);
-    if (value == null || value.isEmpty || !regex.hasMatch(value))
+    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
       return 'Enter a valid email address';
-    else
+    } else {
       return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Widget loadingIndicator = _isLoading
+    //     ? Container(
+    //         color: Colors.grey[300],
+    //         width: 70.0,
+    //         height: 70.0,
+    //         child: new Padding(
+    //           padding: const EdgeInsets.all(5.0),
+    //           child: new Center(
+    //             child: new CircularProgressIndicator(),
+    //           ),
+    //         ),
+    //       )
+    //     : Container();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -77,13 +116,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       backgroundColor: Colors.grey[300],
-      body:
-          // _isLoading
-          //     ? Center(
-          //         child: CircularProgressIndicator(),
-          //       )
-          //     :
-          SafeArea(
+      body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -108,8 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
-//  Add email validator here
-
                       controller: emailcontroller,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) => validateEmail(value),
@@ -140,7 +171,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: TextFormField(
-                      //TODO Insert password validation here
                       controller: passwordcontroller,
                       obscureText: _isObscure,
                       decoration: InputDecoration(
@@ -176,9 +206,14 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextButton(
                   onPressed: () {
-                    // setState(() {
-                    //   _isLoading = true;
-                    // });
+                    // _isLoading
+                    //     ? Center(
+                    //         child: CircularProgressIndicator(),
+                    //       )
+                    //     :
+                    setState(() {
+                      _isLoading = true;
+                    });
                     login(
                       emailcontroller.text.toString(),
                       passwordcontroller.text.toString(),
