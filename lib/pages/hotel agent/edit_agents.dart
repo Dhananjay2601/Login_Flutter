@@ -1,18 +1,19 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unnecessary_new, duplicate_ignore, use_build_context_synchronously, avoid_print
-import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:reseller_apk/pages/hotel_agents.dart';
+import 'package:reseller_apk/pages/hotel%20agent/hotel_agents.dart';
 
-class AddAgent extends StatefulWidget {
-  const AddAgent({super.key});
+class EditAgent extends StatefulWidget {
+  //get agent ID from agent data
+  final AgentDataModel agentDataModel;
+  const EditAgent({Key? key, required this.agentDataModel}) : super(key: key);
 
   @override
-  State<AddAgent> createState() => _AddAgentState();
+  State<EditAgent> createState() => _EditAgentState();
 }
 
-class _AddAgentState extends State<AddAgent> {
+class _EditAgentState extends State<EditAgent> {
   //TextField controllers
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController namecontroller = TextEditingController();
@@ -25,9 +26,10 @@ class _AddAgentState extends State<AddAgent> {
     return prefs.getString('token');
   }
 
-//POST req, Add Agents Function
-  void _register() async {
+//PUT req, Edit Agents function
+  void _edit(String id) async {
     var data = {
+      '_id': id,
       'name': namecontroller.text,
       'email': emailcontroller.text,
       'phone': phonecontroller.text,
@@ -40,8 +42,11 @@ class _AddAgentState extends State<AddAgent> {
         token = result;
       });
       print('$token');
-      Response response = await post(
-        Uri.parse('http://192.168.43.238:3000/api/agents'),
+      Response response = await put(
+        //radha sir ip
+        Uri.parse('http://192.168.43.238:3000/api/agents/$id'),
+        //dhanu phone ip
+        // Uri.parse('http://192.168.138.87:3000/api/agents'),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -75,34 +80,6 @@ class _AddAgentState extends State<AddAgent> {
           'Goa',
           style: TextStyle(color: Colors.black),
         ),
-        //save button
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: TextButton(
-              onPressed: () {
-                //data saved alert message
-                showDialog(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                          title: Text('Hotel Saved!!'),
-                        ),
-                    barrierDismissible: true);
-              },
-              child: Text(
-                'Save',
-                style: TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              style: ButtonStyle(
-                shape: MaterialStatePropertyAll(
-                  CircleBorder(
-                    side: BorderSide(color: Colors.transparent),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 5),
@@ -165,18 +142,18 @@ class _AddAgentState extends State<AddAgent> {
           ],
         ),
       ),
-      // Add agent floatingButton
+      //Floating Edit Button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton.extended(
           backgroundColor: Colors.orange[300],
           foregroundColor: Colors.black,
           onPressed: () {
-            _register();
-            // Respond to button press
+            _edit(widget.agentDataModel.id);
+            print(widget.agentDataModel.id);
           },
           label: Text(
-            '   ADD   ',
+            '   EDIT   ',
             style: TextStyle(fontSize: 20),
           ),
         ),
