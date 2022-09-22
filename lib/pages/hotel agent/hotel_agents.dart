@@ -18,8 +18,10 @@ class _HotelAgentsState extends State<HotelAgents> {
     var data = await http.get(
       //radha sir ip
       Uri.parse('http://192.168.43.238:3000/api/agents'),
-      //dhanu phone ip
+      // dhanu phone ip
       // Uri.parse('http://192.168.138.87:3000/api/agents'),
+      // //localhost
+      // Uri.parse('http://localhost:3000/api/agents'),
     );
     var jsonData = json.decode(data.body);
     List<AgentDataModel> agentsData = [];
@@ -37,12 +39,38 @@ class _HotelAgentsState extends State<HotelAgents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.orange[100],
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
+        backgroundColor: Colors.orange[600],
         title: Text(
           'Goa',
           style: TextStyle(color: Colors.black),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: TextButton(
+              onPressed: () {
+                //data saved alert message
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddAgent()),
+                );
+              },
+              child: Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+              style: ButtonStyle(
+                shape: MaterialStatePropertyAll(
+                  CircleBorder(
+                    side: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
       body: FutureBuilder(
           future: _getAgents(),
@@ -61,8 +89,19 @@ class _HotelAgentsState extends State<HotelAgents> {
                   return Padding(
                     padding: const EdgeInsets.all(10),
                     child: ListTile(
-                      tileColor: Colors.grey,
-                      title: Text(snapshot.data[index].name),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                      ),
+                      tileColor: Colors.orange[300],
+                      title: Text(
+                        snapshot.data[index].name,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       subtitle: Text(snapshot.data[index].email),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -79,77 +118,108 @@ class _HotelAgentsState extends State<HotelAgents> {
                                 ),
                               );
                             },
-                            icon: Icon(Icons.edit),
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
                           ),
                           //Delete agent button
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (ctxt) {
-                                    return AlertDialog(
-                                      title: Center(child: Text("Delete")),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "Do you really want to delete this agent?",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          SizedBox(height: 10),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.orange[300],
+                          SizedBox(width: 5),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 2),
+                            child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (ctxt) {
+                                      return AlertDialog(
+                                        title: Center(
+                                            child: Text(
+                                          "Delete Agent!",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              "Do you really want to delete this agent?",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(height: 30),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                SizedBox(
+                                                  width: 115,
+                                                  height: 50,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.orange[500],
+                                                    ),
+                                                    child: Text(
+                                                      "Cancel",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
                                                 ),
-                                                child: Text(
-                                                  "Cancel",
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.orange[300],
-                                                ),
-                                                child: Text(
-                                                  "Delete",
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                                onPressed: () {
-                                                  deleteAgent.deleteAgent(
-                                                      snapshot.data[index].id,
-                                                      context);
-                                                  Navigator.pop(context);
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          AlertDialog(
-                                                            title: Text(
-                                                                'Agent Deleted!!'),
-                                                          ),
-                                                      barrierDismissible: true);
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  });
-                            },
-                            icon: Icon(Icons.delete),
+                                                SizedBox(
+                                                  width: 115,
+                                                  height: 50,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.orange[500],
+                                                    ),
+                                                    child: Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    onPressed: () {
+                                                      deleteAgent.deleteAgent(
+                                                          snapshot
+                                                              .data[index].id,
+                                                          context);
+                                                      Navigator.pop(context);
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (_) =>
+                                                              AlertDialog(
+                                                                title: Text(
+                                                                    'Agent Deleted!!'),
+                                                              ),
+                                                          barrierDismissible:
+                                                              true);
+                                                    },
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -167,27 +237,27 @@ class _HotelAgentsState extends State<HotelAgents> {
                 });
           }),
       //Add hotel button
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.orange[300],
-          foregroundColor: Colors.black,
-          onPressed: () {
-            // Respond to button press
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddAgent()),
-            );
-          },
-          // icon: Icon(Icons.add),
-          // label: Text(
-          //   'Add Hotel',
-          //   style: TextStyle(fontSize: 20),
-          // ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 10),
+      //   child: FloatingActionButton(
+      //     child: Icon(Icons.add),
+      //     backgroundColor: Colors.orange[600],
+      //     foregroundColor: Colors.black,
+      //     onPressed: () {
+      //       // Respond to button press
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const AddAgent()),
+      //       );
+      //     },
+      //     // icon: Icon(Icons.add),
+      //     // label: Text(
+      //     //   'Add Hotel',
+      //     //   style: TextStyle(fontSize: 20),
+      //     // ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

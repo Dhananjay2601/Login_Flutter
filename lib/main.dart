@@ -11,7 +11,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
   print(email);
-  runApp(MaterialApp(home: email == null ? HomePage() : HomePage()));
+  runApp(MaterialApp(home: email == null ? LoginPage() : HomePage()));
 }
 
 class MyApp extends StatelessWidget {

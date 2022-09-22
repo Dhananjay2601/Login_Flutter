@@ -18,76 +18,124 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.orange[100],
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.orange[300],
+        backgroundColor: Colors.orange[600],
         title: Text(
           'Goa',
           style: TextStyle(color: Colors.black),
         ),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.orange[100],
         // drawer logout button
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: TextButton(
-            child: Text(
-              'Log Out',
-              style: TextStyle(color: Colors.black),
-            ),
-            onPressed: () async {
-              // logOut user and clear user data from local storage
-              showDialog(
-                  context: context,
-                  builder: (ctxt) {
-                    return AlertDialog(
-                      title: Center(child: Text("Logout")),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text("Do you Really want to logout?"),
-                          SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.orange[300],
-                                ),
+        child: Center(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                alignment: Alignment.topLeft,
+                child: TextButton(
+                  style:
+                      TextButton.styleFrom(backgroundColor: Colors.orange[500]),
+                  child: Text(
+                    'Log Out',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () async {
+                    // logOut user and clear user data from local storage
+                    showDialog(
+                        context: context,
+                        builder: (ctxt) {
+                          return ConstrainedBox(
+                            constraints: BoxConstraints(maxHeight: 100.0),
+                            child: AlertDialog(
+                              backgroundColor: Colors.orange[100],
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              contentPadding: EdgeInsets.all(0),
+                              title: Center(
                                 child: Text(
-                                  "Cancel",
-                                  style: TextStyle(color: Colors.black),
+                                  "Logout!",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
                               ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.orange[300],
+                              content: Padding(
+                                padding: const EdgeInsets.all(30.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("Do you really want to logout?"),
+                                    SizedBox(height: 40),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SizedBox(
+                                          width: 115,
+                                          height: 50,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.orange[500],
+                                            ),
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 115,
+                                          height: 50,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.orange[500],
+                                            ),
+                                            child: Text(
+                                              "Logout",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder:
+                                                          (BuildContext ctx) =>
+                                                              LoginPage()));
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                child: Text(
-                                  "Logout",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext ctx) =>
-                                              LoginPage()));
-                                },
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  });
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('email');
-            },
+                              ),
+                            ),
+                          );
+                        });
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                  },
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -100,7 +148,6 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextButton(
-                  // onTap: signIn,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -110,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     padding: EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: Colors.orange[300],
+                      color: Colors.orange[500],
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -142,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     padding: EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: Colors.orange[300],
+                      color: Colors.orange[500],
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -174,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     padding: EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: Colors.orange[300],
+                      color: Colors.orange[500],
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(

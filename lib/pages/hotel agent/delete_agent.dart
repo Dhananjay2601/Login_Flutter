@@ -23,7 +23,9 @@ class DeleteAgent {
         //radha sir ip
         Uri.parse('http://192.168.43.238:3000/api/agents/$id'),
         //dhanu phone ip
-        // Uri.parse('http://192.168.138.87:3000/api/agents'),
+        // Uri.parse('http://192.168.138.87:3000/api/agents/$id'),
+        //localhost
+        // Uri.parse('http://localhost:3000/api/agents/$id'),
         headers: {
           'Authorization': 'Bearer $token',
         },
