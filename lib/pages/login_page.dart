@@ -35,7 +35,12 @@ class _LoginPageState extends State<LoginPage> {
   void login(String email, password) async {
     try {
       Response response = await post(
+        //radha sir ip
         Uri.parse('http://192.168.43.238:3000/auth/signin'),
+        //dhanu phone ip
+        // Uri.parse('http://192.168.138.87:3000/auth/signin'),
+        //localhost
+        // Uri.parse('http://localhost:3000/auth/signin'),
         body: {
           'phoneOrEmail': email,
           'password': password,
@@ -109,13 +114,13 @@ class _LoginPageState extends State<LoginPage> {
     //     : Container();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
+        backgroundColor: Colors.orange[500],
         title: Text(
           'Goa',
           style: TextStyle(color: Colors.black),
         ),
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.orange[100],
       body: SafeArea(
         child: Center(
           child: Column(
@@ -222,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     padding: EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: Colors.orange[300],
+                      color: Colors.orange[500],
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(

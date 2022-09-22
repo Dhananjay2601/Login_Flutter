@@ -44,6 +44,9 @@ class _AddAgentState extends State<AddAgent> {
         Uri.parse('http://192.168.43.238:3000/api/agents'),
         //dhanu phone ip
         // Uri.parse('http://192.168.138.87:3000/api/agents'),
+        //localhost
+        // Uri.parse('http://localhost:3000/api/agents'),
+
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -71,8 +74,10 @@ class _AddAgentState extends State<AddAgent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.orange[100],
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
+        backgroundColor: Colors.orange[500],
         title: Text(
           'Goa',
           style: TextStyle(color: Colors.black),
@@ -109,14 +114,36 @@ class _AddAgentState extends State<AddAgent> {
       body: Padding(
         padding: const EdgeInsets.only(top: 5),
         child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+              child: Text(
+                'Add agent details here',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                ),
+              ),
+            ),
             SizedBox(height: 20),
             //Name TextField
             ListTile(
-              leading: const Icon(Icons.person),
+              leading: const Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
               title: TextField(
                 controller: namecontroller,
+                cursorColor: Colors.black,
                 decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   hintText: "Name",
                 ),
               ),
@@ -124,11 +151,21 @@ class _AddAgentState extends State<AddAgent> {
             SizedBox(height: 20),
             // Email TextFieled
             ListTile(
-              leading: const Icon(Icons.email),
+              leading: const Icon(
+                Icons.email,
+                color: Colors.black,
+              ),
               title: TextField(
                 controller: emailcontroller,
+                cursorColor: Colors.black,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   hintText: "Email",
                 ),
               ),
@@ -136,10 +173,20 @@ class _AddAgentState extends State<AddAgent> {
             SizedBox(height: 20),
             //Phone TextFiled
             ListTile(
-              leading: const Icon(Icons.phone),
+              leading: const Icon(
+                Icons.phone,
+                color: Colors.black,
+              ),
               title: TextField(
                   controller: phonecontroller,
+                  cursorColor: Colors.black,
                   decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
                     hintText: "Phone",
                   ),
                   keyboardType: TextInputType.phone),
@@ -147,10 +194,20 @@ class _AddAgentState extends State<AddAgent> {
             SizedBox(height: 20),
             //Address TextField
             ListTile(
-              leading: const Icon(Icons.work),
+              leading: const Icon(
+                Icons.location_on_sharp,
+                color: Colors.black,
+              ),
               title: TextField(
                 controller: addresscontroller,
+                cursorColor: Colors.black,
                 decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   hintText: "address",
                 ),
               ),
@@ -169,12 +226,95 @@ class _AddAgentState extends State<AddAgent> {
       ),
       // Add agent floatingButton
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(bottom: 50),
         child: FloatingActionButton.extended(
-          backgroundColor: Colors.orange[300],
+          backgroundColor: Colors.orange[500],
           foregroundColor: Colors.black,
           onPressed: () {
-            _register();
+            showDialog(
+                context: context,
+                builder: (ctxt) {
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 100.0),
+                    child: AlertDialog(
+                      backgroundColor: Colors.orange[100],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      contentPadding: EdgeInsets.all(0),
+                      title: Center(
+                          child: Text(
+                        "Add Agent!",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      content: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Do you really want to add agent?",
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                  width: 115,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange[500],
+                                    ),
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                SizedBox(
+                                  width: 115,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange[500],
+                                    ),
+                                    child: Text(
+                                      "Add",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () {
+                                      _register();
+                                      Navigator.pop(context);
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                                title: Text(
+                                                    'Agent Added Successfully!!'),
+                                              ),
+                                          barrierDismissible: true);
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                });
             // Respond to button press
           },
           label: Text(
