@@ -97,6 +97,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     // Widget loadingIndicator = _isLoading
@@ -123,144 +125,166 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.orange[100],
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //welcome resller
-              Text(
-                'Hello Re-Seller!',
-                style: GoogleFonts.bebasNeue(fontSize: 50),
-              ),
-              SizedBox(height: 20),
-
-              //email testfield
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: emailcontroller,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) => validateEmail(value),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: ('Email'),
-                          prefixIcon: Visibility(
-                            child: Icon(
-                              Icons.email,
-                              color: Colors.black,
-                            ),
-                          )),
-                    ),
-                  ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //welcome resller
+                Text(
+                  'Hello Re-Seller!',
+                  style: GoogleFonts.bebasNeue(fontSize: 50),
                 ),
-              ),
-              SizedBox(height: 15),
+                SizedBox(height: 20),
 
-              //password textfield
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: TextFormField(
-                      controller: passwordcontroller,
-                      obscureText: _isObscure,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: ('Password'),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isObscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            },
-                          ),
-                          prefixIcon: Visibility(
-                            child: Icon(
-                              Icons.lock,
-                              color: Colors.black,
-                            ),
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
-
-              //login button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextButton(
-                  onPressed: () {
-                    // _isLoading
-                    //     ? Center(
-                    //         child: CircularProgressIndicator(),
-                    //       )
-                    //     :
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    login(
-                      emailcontroller.text.toString(),
-                      passwordcontroller.text.toString(),
-                    );
-                  },
+                //email testfield
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
-                    padding: EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: Colors.orange[500],
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Center(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailcontroller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: ('Email'),
+                            prefixIcon: Visibility(
+                              child: Icon(
+                                Icons.email,
+                                color: Colors.black,
+                              ),
+                            )),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15),
+                SizedBox(height: 15),
 
-              //not a resller? Join Us Now!
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Not a Resller?',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                //password textfield
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: TextFormField(
+                        controller: passwordcontroller,
+                        obscureText: _isObscure,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: ('Password'),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                            ),
+                            prefixIcon: Visibility(
+                              child: Icon(
+                                Icons.lock,
+                                color: Colors.black,
+                              ),
+                            )),
+                      ),
+                    ),
                   ),
-                  Text(
-                    ' Join Us Now!',
-                    style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
-                  )
-                ],
-              )
-            ],
+                ),
+                SizedBox(height: 15),
+
+                //login button
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Processing Data'),
+                          ),
+                        );
+                      }
+                      // _isLoading
+                      //     ? Center(
+                      //         child: CircularProgressIndicator(),
+                      //       )
+                      //     :
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      login(
+                        emailcontroller.text.toString(),
+                        passwordcontroller.text.toString(),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(13),
+                      decoration: BoxDecoration(
+                        color: Colors.orange[500],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+
+                //not a resller? Join Us Now!
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not a Resller?',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      ' Join Us Now!',
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

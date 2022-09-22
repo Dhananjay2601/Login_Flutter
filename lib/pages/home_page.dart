@@ -111,7 +111,11 @@ class _HomePageState extends State<HomePage> {
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              prefs.remove('email');
                                               Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
@@ -129,9 +133,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                           );
                         });
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.remove('email');
+                    // SharedPreferences prefs =
+                    //     await SharedPreferences.getInstance();
+                    // prefs.remove('email');
                   },
                 ),
               ),
